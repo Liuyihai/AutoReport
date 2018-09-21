@@ -16,5 +16,13 @@ namespace AutoReport
         {
             InitializeComponent();
         }
+
+        Report_Type type = Report_Type.Risk_SILlevel;
+
+
+        private void 风险分析与SILToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+
+        }
     }
 }

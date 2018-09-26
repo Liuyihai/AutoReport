@@ -55,24 +55,26 @@ namespace AutoReport
             style.CharacterFormat.FontSize = 20;
             style.CharacterFormat.FontName = "宋体";
             doc3.Styles.Add(style);
-
             paragraph.ApplyStyle(style.Name);
-
+            doc3.CreateParagraph().AppendBreak(BreakType.PageBreak);
             
-
             foreach (Section sec in doc1.Sections)
             {
+                Section section = doc3.AddSection();
                 foreach (DocumentObject obj in sec.Body.ChildObjects)
                 {
                     doc3.LastSection.Body.ChildObjects.Add(obj.Clone());
                 }
             }
-
+            doc3.CreateParagraph().AppendBreak(BreakType.PageBreak);
+            paragraph = doc3.AddSection().AddParagraph();
+            
             foreach (Section sec in doc2.Sections)
             {
+                Section section = doc3.AddSection();
                 foreach (DocumentObject obj in sec.Body.ChildObjects)
                 {
-                    doc3.LastSection.Body.ChildObjects.Add(obj.Clone());
+                    section.Body.ChildObjects.Add(obj.Clone());
                 }
             }
 

@@ -169,6 +169,7 @@
             this.button1.TabIndex = 2;
             this.button1.Text = "浏览";
             this.button1.UseVisualStyleBackColor = true;
+            this.button1.Click += new System.EventHandler(this.button1_Click);
             // 
             // textBox6
             // 
@@ -309,7 +310,7 @@
             this.textBox8.Size = new System.Drawing.Size(451, 24);
             this.textBox8.TabIndex = 0;
             this.textBox8.Text = "公司完整名称";
-            this.textBox8.Click += new System.EventHandler(this.textBox1_Click);
+            this.textBox8.Click += new System.EventHandler(this.textBox8_Click);
             // 
             // label8
             // 

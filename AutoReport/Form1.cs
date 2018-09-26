@@ -18,11 +18,12 @@ namespace AutoReport
         }
 
         Report_Type type = Report_Type.Risk_SILlevel;
+        
 
 
         private void 风险分析与SILToolStripMenuItem_Click(object sender, EventArgs e)
         {
-
+            type = Report_Type.Risk_SILlevel;
         }
 
         private void textBox1_Click(object sender, EventArgs e)
@@ -88,6 +89,24 @@ namespace AutoReport
                 op = new MTTR_analysis();
 
             return op;   
+        }
+
+        private void textBox8_Click(object sender, EventArgs e)
+        {
+            textBox8.Text = string.Empty;
+        }
+
+        private void button1_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Filter = "Microsoft Excel工作表文件|*.xlsm;*.xlsx;*.xls"
+            };
+            object filename = null;
+            if (ofd.ShowDialog() == DialogResult.OK)
+                filename = ofd.FileName;
+            textBox5.Text = filename.ToString();
+
         }
     }
 }

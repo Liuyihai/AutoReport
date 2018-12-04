@@ -19,7 +19,7 @@ namespace AutoReport
         }
 
         Report_Type type = Report_Type.Risk_SILlevel;
-        
+        //string filepath = 
 
 
         private void 风险分析与SILToolStripMenuItem_Click(object sender, EventArgs e)
@@ -46,8 +46,10 @@ namespace AutoReport
         
         private void textBox6_Click(object sender, EventArgs e)
         {
-            textBox6.Text = string.Empty;
-
+            if (textBox6.Text == "请输入保护层或导入保护层文档(每行一个，文档为txt格式，每行一个)")
+                textBox6.Text = string.Empty;
+            else
+                return;
         }
 
         private void 生成报告ToolStripMenuItem_Click(object sender, EventArgs e)
@@ -62,10 +64,11 @@ namespace AutoReport
             if (sfd.ShowDialog() == DialogResult.OK)
             {
                 filename = sfd.FileName;
+                Operation op = GetOperation();
+                op.DocMerge(filename.ToString(), this);
+                MessageBox.Show("报告已生成完毕。");
             }
-            Operation op = GetOperation();
-            op.DocMerge(filename.ToString(),this);
-            MessageBox.Show("报告已生成完毕。");
+            
         }
 
         private Operation GetOperation()
@@ -140,17 +143,19 @@ namespace AutoReport
             {
                 Filter = "文本文档|*.txt"
             };
-            string filename = null;
             if (ofd.ShowDialog() == DialogResult.OK)
             {
                 StreamReader sr = new StreamReader(ofd.FileName, Encoding.Default);
                 String line;
-                while ((line = sr.ReadLine()) != null)
+                textBox6.Text = string.Empty;
+                line = sr.ReadLine();
+                while (line != null)
                 {
-                    filename += line;
+                    textBox6.Text += line + "\n";
+                    line = sr.ReadLine();
                 }
 
-                textBox6.Text = filename;
+                //textBox6.Text = filename;
             }
 
         }

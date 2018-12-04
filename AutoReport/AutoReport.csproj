@@ -82,6 +82,7 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="GetInfoFromReport.cs" />
     <Compile Include="MTTR_analysis.cs" />
     <Compile Include="Operation.cs" />
     <Compile Include="Program.cs" />

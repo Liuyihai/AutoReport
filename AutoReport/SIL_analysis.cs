@@ -5,6 +5,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Spire.Doc;
 using Spire.Xls;
+using Spire.Doc.Documents;
+using System.IO;
 
 namespace AutoReport
 {
@@ -50,28 +52,49 @@ namespace AutoReport
             }
             model.Close();
             //添加SIL验算信息
-            Document report = new Document();
-            report.LoadFromFile(form.textBox3.Text);
-            //单个表格模板
-            Table modelTab = new Table(saveDocFile);
-            modelTab.ResetCells(18, 4);
-            modelTab.Rows[0].Cells[0].AddParagraph().AppendText("安全仪表功能参数");
-            modelTab.Rows[1].Cells[0].AddParagraph().AppendText("SIL 目标");
-            modelTab.Rows[2].Cells[0].AddParagraph().AppendText("RRF 目标");
-            modelTab.Rows[3].Cells[0].AddParagraph().AppendText("SIL 实现");
-            modelTab.Rows[4].Cells[0].AddParagraph().AppendText("");
-
+            GetInfoFromReport getInfo = new GetInfoFromReport();
+            Document report = getInfo.GetExcel(form.textBox3.Text);
             foreach(Section sec in report.Sections)
             {
-                foreach(Table table in sec.Tables)
+                Section section = saveDocFile.LastSection;
+                foreach (DocumentObject obj in sec.Body.ChildObjects)
                 {
-                    string text = table.Rows[2].Cells[1].Paragraphs.ToString() + table.Rows[3].Cells[1].Paragraphs.ToString();
-                    text.Replace("\n", " ");
-                    saveDocFile.LastParagraph.AppendText(text);
-                    table.Rows[3].Cells[0].Tables[0].Rows[0].Cells[0].AddParagraph().AppendText("");
+                    saveDocFile.LastSection.Body.ChildObjects.Add(obj.Clone());
                 }
             }
+            report.Close();
 
+            //合并doc3.docx
+            model.LoadFromFile(@"./Data/SILlevel/doc3.docx");
+            foreach (Section sec in model.Sections)
+            {
+                Section section = saveDocFile.LastSection;
+                foreach (DocumentObject obj in sec.Body.ChildObjects)
+                {
+                    saveDocFile.LastSection.Body.ChildObjects.Add(obj.Clone());
+                }
+            }
+            model.Close();
+
+            //添加会议记录图片
+            FileStream fs = File.OpenRead(form.textBox7.Text); //OpenRead
+            int filelength = 0;
+            filelength = (int)fs.Length; //获得文件长度 
+            Byte[] image = new Byte[filelength]; //建立一个字节数组 
+            fs.Read(image, 0, filelength);
+            Paragraph paragraph = saveDocFile.LastParagraph;
+            paragraph.AppendPicture(image);
+            fs.Close();
+
+            //字符替换
+            string[] replaceText = new string[3]
+                { form.textBox1.Text, form.textBox2.Text,  form.textBox5.Text
+                };
+            ReplaceStr replace = new ReplaceStr();
+            saveDocFile = replace.Replace(saveDocFile, replaceText);
+            saveDocFile.SaveToFile(filename, Spire.Doc.FileFormat.Docx2013);
+            //saveDocFile.SaveToFile(filename, FileFormat.Docx2013);
+            saveDocFile.Close();
         }
     }
 }

@@ -132,10 +132,12 @@
             // 
             // textBox6
             // 
+            this.textBox6.AllowDrop = true;
             this.textBox6.Font = new System.Drawing.Font("宋体", 11F);
             this.textBox6.Location = new System.Drawing.Point(104, 237);
             this.textBox6.Multiline = true;
             this.textBox6.Name = "textBox6";
+            this.textBox6.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
             this.textBox6.Size = new System.Drawing.Size(397, 198);
             this.textBox6.TabIndex = 0;
             this.textBox6.Text = "请输入保护层或导入保护层文档(每行一个，文档为txt格式，每行一个)";
@@ -346,7 +348,7 @@
             this.Controls.Add(this.menuStrip1);
             this.MainMenuStrip = this.menuStrip1;
             this.Name = "Form1";
-            this.Text = " ";
+            this.Text = "自动报告生成软件 V0.1";
             this.menuStrip1.ResumeLayout(false);
             this.menuStrip1.PerformLayout();
             this.ResumeLayout(false);

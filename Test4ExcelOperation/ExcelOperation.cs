@@ -4,24 +4,17 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Spire.Xls;
-using Spire.Doc.Documents;
 using Spire.Doc;
+using Spire.Doc.Documents;
 using Spire.Doc.Fields;
 using System.Drawing;
 using System.Text.RegularExpressions;
 
-namespace AutoReport
+namespace Test4ExcelOperation
 {
     public class ExcelOperation
     {
-        public ExcelOperation(String filename)
-        {
-            this.filename = filename;
-        }
-
-        String filename = string.Empty;
-
-        public Document Excel2Docx()
+        public void Excel2Docx(string filename)
         {
             filename = filename.Replace("\"", "");
             Workbook workbook = new Workbook();
@@ -56,11 +49,12 @@ namespace AutoReport
             header.CharacterFormat.Italic = false;
             doc.Styles.Add(header);
 
+
             foreach (Worksheet sheet in workbook.Worksheets)
             {
                 Regex regex = new Regex(@"SIF List");
-
-                //Console.WriteLine(sheet.Name);
+                
+                Console.WriteLine(sheet.Name);
                 if (sheet == workbook.Worksheets[0] || sheet.Name == "SIL decision matrix")
                     continue;
                 else if (regex.Match(sheet.Name).Success) continue;
@@ -75,19 +69,17 @@ namespace AutoReport
                     hr.AddCell();
                     hr.Cells[hr.Cells.Count - 1].AddParagraph().AppendText(sheet.Range["B3"].FormulaValue.ToString());
                     hr.AddCell();
-                    string cell4 = sheet.Range["H3"].FormulaValue.ToString();
+                    Console.WriteLine(sheet.Range["H3"].Value);
+                    string cell4 = sheet.Range["H3"].Value;
                     hr.Cells[hr.Cells.Count - 1].AddParagraph().AppendText(cell4);
 
                     lead.Rows.Add(hr);
                     String headText = sheet.Range["B2"].FormulaValue + "  " + sheet.Range["B3"].FormulaValue;
-                    //Console.WriteLine("", sheet.Range["B2"].FormulaValue, sheet.Range["B3"].FormulaValue);
+                    Console.WriteLine("", sheet.Range["B2"].FormulaValue, sheet.Range["B3"].FormulaValue);
                     Paragraph paragraph = section.AddParagraph();
                     paragraph.AppendText(headText);
-                    paragraph.ApplyStyle(BuiltinStyle.Heading3);
-                    ParagraphStyle s = paragraph.GetStyle();
-                    s.Name = "ssss";
-                    s.CharacterFormat.Italic = false;
-                    paragraph.ApplyStyle("ssss");
+                    paragraph.ApplyStyle(header.Name);
+                    
 
                     Table table = section.AddTable(true);
                     table.ResetCells(10, 6);
@@ -151,7 +143,7 @@ namespace AutoReport
                         //人员
                         foreach (string h in head)
                         {
-                            //Console.WriteLine(sheet.Range[h + i.ToString()].Style.Color.ToString() + "\t" + h + i.ToString());
+                            Console.WriteLine(sheet.Range[h + i.ToString()].Style.Color.ToString() + "\t" + h + i.ToString());
                             if (sheet.Range[h + i.ToString()].Style.Color.ToArgb() == Color.Red.ToArgb())
                             {
                                 strg = sheet.Range[h + i.ToString()].Text;
@@ -278,7 +270,8 @@ namespace AutoReport
                 }
             }
 
-            return doc;
+            doc.SaveToFile(filename.Replace(".xlsm",".docx"), Spire.Doc.FileFormat.Docx2013);
+            doc.Close();
         }
     }
 }

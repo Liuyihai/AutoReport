@@ -5,6 +5,12 @@ VisualStudioVersion = 15.0.27428.2027
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AutoReport", "AutoReport\AutoReport.csproj", "{12A09D6B-A26F-4B49-A52E-C61688BB460E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Test4ExcelOperation", "Test4ExcelOperation\Test4ExcelOperation.csproj", "{18D5621E-8ADA-4C44-9E8C-3D9E11EA22E2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GetExcelFormReport", "ConsoleApp1\GetExcelFormReport.csproj", "{FF5983F5-C242-486D-9C91-F471E73D7A7B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CompleteSIFList", "CompleteSIFList\CompleteSIFList.csproj", "{87EF2828-D45C-4CEA-B43C-8154D59AD263}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +21,18 @@ Global
 		{12A09D6B-A26F-4B49-A52E-C61688BB460E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{12A09D6B-A26F-4B49-A52E-C61688BB460E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{12A09D6B-A26F-4B49-A52E-C61688BB460E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{18D5621E-8ADA-4C44-9E8C-3D9E11EA22E2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{18D5621E-8ADA-4C44-9E8C-3D9E11EA22E2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{18D5621E-8ADA-4C44-9E8C-3D9E11EA22E2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{18D5621E-8ADA-4C44-9E8C-3D9E11EA22E2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FF5983F5-C242-486D-9C91-F471E73D7A7B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FF5983F5-C242-486D-9C91-F471E73D7A7B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FF5983F5-C242-486D-9C91-F471E73D7A7B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FF5983F5-C242-486D-9C91-F471E73D7A7B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{87EF2828-D45C-4CEA-B43C-8154D59AD263}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{87EF2828-D45C-4CEA-B43C-8154D59AD263}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{87EF2828-D45C-4CEA-B43C-8154D59AD263}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{87EF2828-D45C-4CEA-B43C-8154D59AD263}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -6,6 +6,8 @@ using System.Threading.Tasks;
 using Spire.Doc;
 using System.Windows.Forms;
 using Spire.Doc.Documents;
+using System.IO;
+using System.Drawing;
 
 namespace AutoReport
 {
@@ -21,67 +23,76 @@ namespace AutoReport
         /// </summary>
         public override void DocMerge(String filename,Form1 form)
         {
-            Document doc1 = new Document();
-            doc1.LoadFromFile(System.Environment.CurrentDirectory + @"\Data\SILlevel\doc1.docx");
+            Document saveDocFile = new Document();
 
-            Document doc2 = new Document();
-            doc2.LoadFromFile(System.Environment.CurrentDirectory + @"\Data\SILlevel\doc2.docx");
-
-            Document doc3 = new Document();
-
-            Paragraph paragraph = doc3.AddSection().AddParagraph();
-            paragraph.AppendText("\n");
-            paragraph.AppendText("\n");
-            paragraph.AppendText("\n");
-            paragraph.AppendText(form.textBox8.Text + "\n");
-            paragraph.AppendText(form.textBox1.Text + "\n");
-            paragraph.AppendText("\n");
-            paragraph.AppendText(form.textBox2.Text + "\n");
-            paragraph.AppendText("风险分析与SIL定级报告");
-            paragraph.AppendText("\n");
-            paragraph.AppendText("\n");
-            paragraph.AppendText("\n");
-            paragraph.AppendText("\n");
-            paragraph.AppendText("\n");
-            paragraph.AppendText("\n");
-            paragraph.AppendText("\n");
-            paragraph.AppendText("\n");
-            paragraph.AppendText("\n");
-            ParagraphStyle style = new ParagraphStyle(doc3)
+            //合并doc1.docx
+            Document model = new Document();
+            model.LoadFromFile(@"./Data/SILlevel/doc1.docx");
+            foreach (Section sec in model.Sections)
             {
-                Name = "firstpage"
-            };
-            style.CharacterFormat.Bold = true;
-            style.CharacterFormat.FontSize = 20;
-            style.CharacterFormat.FontName = "宋体";
-            doc3.Styles.Add(style);
-            paragraph.ApplyStyle(style.Name);
-            doc3.CreateParagraph().AppendBreak(BreakType.PageBreak);
-            
-            foreach (Section sec in doc1.Sections)
-            {
-                Section section = doc3.AddSection();
+                Section section = saveDocFile.AddSection();
                 foreach (DocumentObject obj in sec.Body.ChildObjects)
                 {
-                    doc3.LastSection.Body.ChildObjects.Add(obj.Clone());
+                    saveDocFile.LastSection.Body.ChildObjects.Add(obj.Clone());
                 }
             }
-            doc3.CreateParagraph().AppendBreak(BreakType.PageBreak);
-            paragraph = doc3.AddSection().AddParagraph();
-            
-            foreach (Section sec in doc2.Sections)
+            model.Close();
+            //导入表格
+            ExcelOperation excelOperation = new ExcelOperation(form.textBox5.Text);
+            Document excel = excelOperation.Excel2Docx();
+            foreach (Section sec in excel.Sections)
             {
-                Section section = doc3.AddSection();
+                Section section = saveDocFile.AddSection();
                 foreach (DocumentObject obj in sec.Body.ChildObjects)
                 {
-                    section.Body.ChildObjects.Add(obj.Clone());
+                    saveDocFile.LastSection.Body.ChildObjects.Add(obj.Clone());
                 }
             }
+            excel.Close();
+            //合并doc2.docx
+            model.LoadFromFile(@"./Data/SILlevel/doc2.docx");
+            foreach (Section sec in model.Sections)
+            {
+                Section section = saveDocFile.LastSection;
+                foreach (DocumentObject obj in sec.Body.ChildObjects)
+                {
+                    saveDocFile.LastSection.Body.ChildObjects.Add(obj.Clone());
+                }
+            }
+            model.Close();
+            //添加保护层
+            Paragraph paragraph = saveDocFile.LastParagraph;
+            paragraph.AppendText(form.textBox6.Text);
+            //合并doc3.docx
+            model.LoadFromFile(@"./Data/SILlevel/doc3.docx");
+            foreach (Section sec in model.Sections)
+            {
+                Section section = saveDocFile.LastSection;
+                foreach (DocumentObject obj in sec.Body.ChildObjects)
+                {
+                    saveDocFile.LastSection.Body.ChildObjects.Add(obj.Clone());
+                }
+            }
+            model.Close();
+            //添加会议记录图片
+            FileStream fs = File.OpenRead(form.textBox7.Text); //OpenRead
+            int filelength = 0;
+            filelength = (int)fs.Length; //获得文件长度 
+            Byte[] image = new Byte[filelength]; //建立一个字节数组 
+            fs.Read(image, 0, filelength);
+            paragraph = saveDocFile.LastParagraph;
+            paragraph.AppendPicture(image);
+            fs.Close();
 
-            doc3.SaveToFile(filename, FileFormat.Docx2013);
-            doc1.Close();
-            doc2.Close();
-            doc3.Close();
+            //字符替换
+            string[] replaceText = new string[3] 
+                { form.textBox1.Text, form.textBox2.Text,  form.textBox5.Text
+                };
+            ReplaceStr replace = new ReplaceStr();
+            saveDocFile = replace.Replace(saveDocFile, replaceText);
+
+            saveDocFile.SaveToFile(filename, FileFormat.Docx2013);
+            saveDocFile.Close();
         }
     }
 }

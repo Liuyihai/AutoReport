@@ -225,24 +225,28 @@
             this.风险分析与SILToolStripMenuItem.Name = "风险分析与SILToolStripMenuItem";
             this.风险分析与SILToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
             this.风险分析与SILToolStripMenuItem.Text = "风险分析与SIL定级报告";
+            this.风险分析与SILToolStripMenuItem.Click += new System.EventHandler(this.风险分析与SILToolStripMenuItem_Click);
             // 
             // sIL分析报告ToolStripMenuItem
             // 
             this.sIL分析报告ToolStripMenuItem.Name = "sIL分析报告ToolStripMenuItem";
             this.sIL分析报告ToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
             this.sIL分析报告ToolStripMenuItem.Text = "SIL分析报告";
+            this.sIL分析报告ToolStripMenuItem.Click += new System.EventHandler(this.sIL分析报告ToolStripMenuItem_Click);
             // 
             // sIL验证报告ToolStripMenuItem
             // 
             this.sIL验证报告ToolStripMenuItem.Name = "sIL验证报告ToolStripMenuItem";
             this.sIL验证报告ToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
             this.sIL验证报告ToolStripMenuItem.Text = "SIL验证报告";
+            this.sIL验证报告ToolStripMenuItem.Click += new System.EventHandler(this.sIL验证报告ToolStripMenuItem_Click);
             // 
             // 误停车报告ToolStripMenuItem
             // 
             this.误停车报告ToolStripMenuItem.Name = "误停车报告ToolStripMenuItem";
             this.误停车报告ToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
             this.误停车报告ToolStripMenuItem.Text = "误停车分析报告";
+            this.误停车报告ToolStripMenuItem.Click += new System.EventHandler(this.误停车报告ToolStripMenuItem_Click);
             // 
             // 生成报告ToolStripMenuItem
             // 

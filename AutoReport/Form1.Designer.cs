@@ -42,6 +42,11 @@
             this.label7 = new System.Windows.Forms.Label();
             this.button3 = new System.Windows.Forms.Button();
             this.menuStrip1 = new System.Windows.Forms.MenuStrip();
+            this.报告类型ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.风险分析与SILToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sIL分析报告ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.sIL验证报告ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.误停车报告ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.生成报告ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.退出ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.textBox8 = new System.Windows.Forms.TextBox();
@@ -50,11 +55,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.button4 = new System.Windows.Forms.Button();
             this.label4 = new System.Windows.Forms.Label();
-            this.报告类型ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.风险分析与SILToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sIL分析报告ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.sIL验证报告ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.误停车报告ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.button5 = new System.Windows.Forms.Button();
             this.menuStrip1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -158,9 +159,9 @@
             this.button2.Font = new System.Drawing.Font("宋体", 11F);
             this.button2.Location = new System.Drawing.Point(507, 238);
             this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(48, 22);
+            this.button2.Size = new System.Drawing.Size(48, 44);
             this.button2.TabIndex = 2;
-            this.button2.Text = "浏览";
+            this.button2.Text = "导入文档";
             this.button2.UseVisualStyleBackColor = true;
             this.button2.Click += new System.EventHandler(this.button2_Click);
             // 
@@ -208,6 +209,41 @@
             this.menuStrip1.TabIndex = 3;
             this.menuStrip1.Text = "menuStrip1";
             // 
+            // 报告类型ToolStripMenuItem
+            // 
+            this.报告类型ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.风险分析与SILToolStripMenuItem,
+            this.sIL分析报告ToolStripMenuItem,
+            this.sIL验证报告ToolStripMenuItem,
+            this.误停车报告ToolStripMenuItem});
+            this.报告类型ToolStripMenuItem.Name = "报告类型ToolStripMenuItem";
+            this.报告类型ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
+            this.报告类型ToolStripMenuItem.Text = "报告类型";
+            // 
+            // 风险分析与SILToolStripMenuItem
+            // 
+            this.风险分析与SILToolStripMenuItem.Name = "风险分析与SILToolStripMenuItem";
+            this.风险分析与SILToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
+            this.风险分析与SILToolStripMenuItem.Text = "风险分析与SIL定级报告";
+            // 
+            // sIL分析报告ToolStripMenuItem
+            // 
+            this.sIL分析报告ToolStripMenuItem.Name = "sIL分析报告ToolStripMenuItem";
+            this.sIL分析报告ToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
+            this.sIL分析报告ToolStripMenuItem.Text = "SIL分析报告";
+            // 
+            // sIL验证报告ToolStripMenuItem
+            // 
+            this.sIL验证报告ToolStripMenuItem.Name = "sIL验证报告ToolStripMenuItem";
+            this.sIL验证报告ToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
+            this.sIL验证报告ToolStripMenuItem.Text = "SIL验证报告";
+            // 
+            // 误停车报告ToolStripMenuItem
+            // 
+            this.误停车报告ToolStripMenuItem.Name = "误停车报告ToolStripMenuItem";
+            this.误停车报告ToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
+            this.误停车报告ToolStripMenuItem.Text = "误停车分析报告";
+            // 
             // 生成报告ToolStripMenuItem
             // 
             this.生成报告ToolStripMenuItem.Name = "生成报告ToolStripMenuItem";
@@ -251,8 +287,7 @@
             this.textBox3.Size = new System.Drawing.Size(397, 24);
             this.textBox3.TabIndex = 0;
             this.textBox3.Text = "请选择exida导出的报告文件";
-            this.textBox3.Click += new System.EventHandler(this.button1_Click);
-            this.textBox3.TextChanged += new System.EventHandler(this.button4_Click);
+            this.textBox3.Click += new System.EventHandler(this.button4_Click);
             // 
             // label3
             // 
@@ -286,46 +321,23 @@
             this.label4.TabIndex = 4;
             this.label4.Text = "当前报告类型：风险分析与SIL定级";
             // 
-            // 报告类型ToolStripMenuItem
+            // button5
             // 
-            this.报告类型ToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.风险分析与SILToolStripMenuItem,
-            this.sIL分析报告ToolStripMenuItem,
-            this.sIL验证报告ToolStripMenuItem,
-            this.误停车报告ToolStripMenuItem});
-            this.报告类型ToolStripMenuItem.Name = "报告类型ToolStripMenuItem";
-            this.报告类型ToolStripMenuItem.Size = new System.Drawing.Size(81, 24);
-            this.报告类型ToolStripMenuItem.Text = "报告类型";
-            // 
-            // 风险分析与SILToolStripMenuItem
-            // 
-            this.风险分析与SILToolStripMenuItem.Name = "风险分析与SILToolStripMenuItem";
-            this.风险分析与SILToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
-            this.风险分析与SILToolStripMenuItem.Text = "风险分析与SIL定级报告";
-            // 
-            // sIL分析报告ToolStripMenuItem
-            // 
-            this.sIL分析报告ToolStripMenuItem.Name = "sIL分析报告ToolStripMenuItem";
-            this.sIL分析报告ToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
-            this.sIL分析报告ToolStripMenuItem.Text = "SIL分析报告";
-            // 
-            // sIL验证报告ToolStripMenuItem
-            // 
-            this.sIL验证报告ToolStripMenuItem.Name = "sIL验证报告ToolStripMenuItem";
-            this.sIL验证报告ToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
-            this.sIL验证报告ToolStripMenuItem.Text = "SIL验证报告";
-            // 
-            // 误停车报告ToolStripMenuItem
-            // 
-            this.误停车报告ToolStripMenuItem.Name = "误停车报告ToolStripMenuItem";
-            this.误停车报告ToolStripMenuItem.Size = new System.Drawing.Size(234, 24);
-            this.误停车报告ToolStripMenuItem.Text = "误停车分析报告";
+            this.button5.Font = new System.Drawing.Font("宋体", 11F);
+            this.button5.Location = new System.Drawing.Point(507, 288);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(48, 44);
+            this.button5.TabIndex = 5;
+            this.button5.Text = "自动提取";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.button5_Click);
             // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 12F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(587, 490);
+            this.Controls.Add(this.button5);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
@@ -385,6 +397,7 @@
         private System.Windows.Forms.ToolStripMenuItem sIL分析报告ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem sIL验证报告ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem 误停车报告ToolStripMenuItem;
+        private System.Windows.Forms.Button button5;
     }
 }
 

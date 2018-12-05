@@ -73,7 +73,7 @@ namespace AutoReport
                     hr.AddCell();
                     hr.Cells[hr.Cells.Count - 1].AddParagraph().AppendText(sheet.Name);
                     hr.AddCell();
-                    hr.Cells[hr.Cells.Count - 1].AddParagraph().AppendText(sheet.Range["B3"].FormulaValue.ToString());
+                    hr.Cells[hr.Cells.Count - 1].AddParagraph().AppendText(sheet.Range["B3"].Value);
                     hr.AddCell();
                     string cell4 = sheet.Range["H3"].FormulaValue.ToString();
                     hr.Cells[hr.Cells.Count - 1].AddParagraph().AppendText(cell4);
@@ -83,11 +83,7 @@ namespace AutoReport
                     //Console.WriteLine("", sheet.Range["B2"].FormulaValue, sheet.Range["B3"].FormulaValue);
                     Paragraph paragraph = section.AddParagraph();
                     paragraph.AppendText(headText);
-                    paragraph.ApplyStyle(BuiltinStyle.Heading3);
-                    ParagraphStyle s = paragraph.GetStyle();
-                    s.Name = "ssss";
-                    s.CharacterFormat.Italic = false;
-                    paragraph.ApplyStyle("ssss");
+                    paragraph.ApplyStyle(header.Name);
 
                     Table table = section.AddTable(true);
                     table.ResetCells(10, 6);

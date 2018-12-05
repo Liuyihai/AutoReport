@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Spire.Doc;
-using Spire.Xls;
 using Spire.Doc.Documents;
 using System.IO;
 
@@ -88,11 +87,11 @@ namespace AutoReport
 
             //字符替换
             string[] replaceText = new string[3]
-                { form.textBox1.Text, form.textBox2.Text,  form.textBox5.Text
+                { form.textBox8.Text, form.textBox1.Text,  form.textBox2.Text
                 };
             ReplaceStr replace = new ReplaceStr();
             saveDocFile = replace.Replace(saveDocFile, replaceText);
-            saveDocFile.SaveToFile(filename, Spire.Doc.FileFormat.Docx2013);
+            saveDocFile.SaveToFile(filename, FileFormat.Docx2013);
             //saveDocFile.SaveToFile(filename, FileFormat.Docx2013);
             saveDocFile.Close();
         }

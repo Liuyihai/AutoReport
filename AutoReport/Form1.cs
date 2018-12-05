@@ -6,8 +6,10 @@ using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using Spire.Xls;
 
 namespace AutoReport
 {
@@ -195,6 +197,41 @@ namespace AutoReport
         private void 退出ToolStripMenuItem_Click(object sender, EventArgs e)
         {
             Application.Exit();
+        }
+
+        private void button5_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog ofd = new OpenFileDialog
+            {
+                Filter = "Microsoft Excel工作表文件|*.xlsm;*.xlsx;*.xls"
+            };
+            object filename = null;
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                filename = ofd.FileName;
+                string protection = Protection(filename.ToString());
+                textBox6.Text = protection;
+            }
+        }
+
+        public string Protection(string filepath)
+        {
+            Workbook excel = new Workbook();
+            excel.LoadFromFile(filepath);
+            string protection = string.Empty;
+            foreach(Worksheet sheet in excel.Worksheets)
+            {
+                Regex regex = new Regex(@"SIF List");
+                if (sheet == excel.Worksheets[0] || sheet.Name == "SIL decision matrix")
+                    continue;
+                else if (regex.Match(sheet.Name).Success) continue;
+                else
+                {
+                    if(sheet.Range["B46"].FormulaValue != null)
+                        protection += sheet.Range["B46"].FormulaValue.ToString() + "\n";
+                }
+            }
+            return protection;
         }
     }
 }

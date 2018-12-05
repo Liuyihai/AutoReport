@@ -48,6 +48,13 @@ namespace AutoReport
             cellstyle.CharacterFormat.FontSize = 12;
             saveDocFile.Styles.Add(cellstyle);
 
+            Paragraph p = new Paragraph(saveDocFile);
+            p.ApplyStyle(BuiltinStyle.Heading2);
+            ParagraphStyle header = p.GetStyle();
+            header.Name = "Header";
+            header.CharacterFormat.Italic = false;
+            saveDocFile.Styles.Add(header);
+
             foreach (Section sec in report.Sections)
             {
                 foreach (Table table in sec.Tables)
@@ -67,8 +74,7 @@ namespace AutoReport
                     text.Replace("\n", " ");
                     Paragraph pg = section.AddParagraph();
                     pg.AppendText(text);
-                    //pg.ApplyStyle(TitleOfExcel.Name);
-                    pg.ApplyStyle(BuiltinStyle.Heading2);
+                    pg.ApplyStyle(header.Name);
 
                     Table modelTab = saveDocFile.LastSection.AddTable();
                     modelTab.ResetCells(18, 4);

@@ -41,11 +41,17 @@ namespace Test4ExcelOperation
             DefaultTableStyle style = DefaultTableStyle.TableGrid;
             lead.ApplyStyle(style);
             int No = 0;
+            int count_NA = 0;
+            int count_SIL1 = 0;
+            int count_SIL2 = 0;
+            int count_SIL3 = 0;
+            int count_SIL4 = 0;
 
             Paragraph p = new Paragraph(doc);
             p.ApplyStyle(BuiltinStyle.Heading2);
             ParagraphStyle header = p.GetStyle();
             header.Name = "Header";
+            header.CharacterFormat.FontName = "宋体";
             header.CharacterFormat.Italic = false;
             doc.Styles.Add(header);
 
@@ -65,12 +71,14 @@ namespace Test4ExcelOperation
                     hr.AddCell();
                     hr.Cells[hr.Cells.Count - 1].AddParagraph().AppendText(No.ToString());
                     hr.AddCell();
-                    hr.Cells[hr.Cells.Count - 1].AddParagraph().AppendText(sheet.Name);
+                    hr.Cells[hr.Cells.Count - 1].AddParagraph().AppendText(sheet.Range["B2"].FormulaValue.ToString());
                     hr.AddCell();
-                    hr.Cells[hr.Cells.Count - 1].AddParagraph().AppendText(sheet.Range["B3"].FormulaValue.ToString());
+                    Paragraph cellcontent = hr.Cells[hr.Cells.Count - 1].AddParagraph();
+                    cellcontent.AppendText(sheet.Range["B3"].FormulaValue.ToString());
+                    cellcontent.ApplyStyle(sty.Name);
                     hr.AddCell();
-                    Console.WriteLine(sheet.Range["H3"].Value);
-                    string cell4 = sheet.Range["H3"].Value;
+                    Console.WriteLine(sheet.Range["H3"].FormulaValue);
+                    string cell4 = sheet.Range["H3"].FormulaValue.ToString();
                     hr.Cells[hr.Cells.Count - 1].AddParagraph().AppendText(cell4);
 
                     lead.Rows.Add(hr);
@@ -198,6 +206,17 @@ namespace Test4ExcelOperation
                     //最终定级
                     range = table[7, 4].AddParagraph().AppendText("SIL定级");
                     range = table[7, 5].AddParagraph().AppendText(sheet.GetText(44, 8));
+                    if (sheet.GetText(44, 8) == "NA")
+                        count_NA++;
+                    else if (sheet.GetText(44, 8) == "SIL 1")
+                        count_SIL1++;
+                    else if (sheet.GetText(44, 8) == "SIL 2")
+                        count_SIL2++;
+                    else if (sheet.GetText(44, 8) == "SIL 3")
+                        count_SIL3++;
+                    else count_SIL4++;
+                        
+
                     int[] aa = new int[7] { 0, 1, 2, 3, 4, 5, 6 };
                     foreach (TableRow rowl in table.Rows)
                     {
@@ -269,6 +288,11 @@ namespace Test4ExcelOperation
                     table.ApplyStyle(style);
                 }
             }
+
+            Paragraph pgg = doc.LastSection.AddParagraph();
+            string str = "NA等级联锁数量：" + count_NA + "\nSIL 1等级数量：" + count_SIL1 + "\nSIL 2等级数量：" +
+                count_SIL2 + "\nSIL 3等级联锁数量：" + count_SIL3 + "\nSIL 4等级联锁数量：" + count_SIL4;
+            pgg.AppendText(str);
 
             doc.SaveToFile(filename.Replace(".xlsm",".docx"), Spire.Doc.FileFormat.Docx2013);
             doc.Close();

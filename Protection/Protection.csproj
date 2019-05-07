@@ -4,14 +4,15 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{87EF2828-D45C-4CEA-B43C-8154D59AD263}</ProjectGuid>
+    <ProjectGuid>{ABDF588C-9D3F-49E6-A135-89398AC43351}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>CompleteSIFList</RootNamespace>
-    <AssemblyName>CompleteSIFList</AssemblyName>
-    <TargetFrameworkVersion>v4.6.1</TargetFrameworkVersion>
+    <RootNamespace>Protection</RootNamespace>
+    <AssemblyName>Protection</AssemblyName>
+    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <Deterministic>true</Deterministic>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>

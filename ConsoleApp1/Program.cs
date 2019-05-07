@@ -16,18 +16,25 @@ namespace GetExcelFormReoprt
             {
                 Console.WriteLine("请输入摘取后的exida报告文件路径或直接将其拖入此窗口：");
                 string filename = Console.ReadLine();
-                GetExcel(filename);
+                Console.WriteLine("请输入平均修复时间：");
+                string MTTR = Console.ReadLine();
+                Console.WriteLine("请输入检验测试周期：");
+                string PTI = Console.ReadLine();
+                Document doc = new Document();
+                doc = GetExcel(filename.Replace("\"", ""),MTTR,PTI);
+                doc.SaveToFile(filename.Replace("\"", "").Replace(".docx", "_result.docx"));
+                Console.WriteLine("信息提取并保存成功！请在原文件目录查看。\n");
             }
         }
 
-        private static void GetExcel(string filename)
+        private static Document GetExcel(string filename,string MTTR,string PTI)
         {
             Document saveDocFile = new Document();
             //添加SIL验算信息
             Document report = new Document();
             report.LoadFromFile(filename);
             Section section = saveDocFile.AddSection();
-            //添加统计表格
+            ////添加统计表格
             Table total = section.AddTable();
             total.ResetCells(1, 6);
             total.Rows[0].Cells[0].AddParagraph().AppendText("序号");
@@ -44,11 +51,13 @@ namespace GetExcelFormReoprt
             total.Rows[0].Cells[5].Width = 60;
             total.ApplyStyle(DefaultTableStyle.TableGrid);
 
-            ParagraphStyle TitleOfExcel = new ParagraphStyle(saveDocFile);
-            TitleOfExcel.Name = "TitleOfExcel";
-            TitleOfExcel.CharacterFormat.FontName = "宋体";
-            TitleOfExcel.CharacterFormat.FontSize = 12;
-            saveDocFile.Styles.Add(TitleOfExcel);
+            //Paragraph p = new Paragraph(saveDocFile);
+            //p.ApplyStyle(BuiltinStyle.Heading2);
+            //ParagraphStyle header = p.GetStyle();
+            //header.Name = "Header";
+            //header.CharacterFormat.FontName = "宋体";
+            //header.CharacterFormat.Italic = false;
+            //saveDocFile.Styles.Add(header);
 
             ParagraphStyle cellstyle = new ParagraphStyle(saveDocFile);
             cellstyle.Name = "CellStyle";
@@ -56,22 +65,24 @@ namespace GetExcelFormReoprt
             cellstyle.CharacterFormat.FontSize = 12;
             saveDocFile.Styles.Add(cellstyle);
 
+            Console.WriteLine("Head Compelete\n");
+
             foreach (Section sec in report.Sections)
             {
                 foreach (Table table in sec.Tables)
                 {
                     total.AddRow(true);
                     total.LastRow.Cells[0].AddParagraph().AppendText((total.Rows.Count - 1).ToString());
-                    total.LastRow.Cells[1].AddParagraph().AppendText(table.Rows[2].Cells[1].Paragraphs[0].Text);
-                    total.LastRow.Cells[2].AddParagraph().AppendText(table.Rows[3].Cells[1].Paragraphs[0].Text);
-                    string value = "SIL " + table.Rows[5].Cells[0].Tables[0].Rows[1].Cells[1].Paragraphs[0].Text;
+                    total.LastRow.Cells[1].AddParagraph().AppendText(table.Rows[0].Cells[3].Paragraphs[0].Text);
+                    total.LastRow.Cells[2].AddParagraph().AppendText(table.Rows[1].Cells[3].Paragraphs[0].Text);
+                    string value = "SIL " + table.Rows[4].Cells[0].Tables[0].Rows[1].Cells[1].Paragraphs[0].Text;
                     total.LastRow.Cells[3].AddParagraph().AppendText(value);
-                    value = "SIL " + table.Rows[5].Cells[0].Tables[0].Rows[4].Cells[1].Paragraphs[0].Text;
+                    value = "SIL " + table.Rows[4].Cells[0].Tables[0].Rows[4].Cells[1].Paragraphs[0].Text;
                     total.LastRow.Cells[4].AddParagraph().AppendText(value);
-                    value = table.Rows[5].Cells[0].Tables[0].Rows[10].Cells[1].Paragraphs[0].Text + "years";
+                    value = table.Rows[4].Cells[0].Tables[0].Rows[10].Cells[1].Paragraphs[0].Text + "years";
                     total.LastRow.Cells[5].AddParagraph().AppendText(value);
 
-                    string text = table.Rows[2].Cells[1].Paragraphs[0].Text + table.Rows[3].Cells[1].Paragraphs[0].Text;
+                    string text = table.Rows[0].Cells[3].Paragraphs[0].Text + "\t" + table.Rows[1].Cells[3].Paragraphs[0].Text;
                     text.Replace("\n", " ");
                     Paragraph pg = section.AddParagraph();
                     pg.AppendText(text);
@@ -121,95 +132,95 @@ namespace GetExcelFormReoprt
                     modelTab.Rows[16].Cells[0].AddParagraph().AppendText("逻辑控制器部分");
                     modelTab.Rows[17].Cells[0].AddParagraph().AppendText("执行器部分");
 
-                    value = table.Rows[5].Cells[0].Tables[0].Rows[1].Cells[1].Paragraphs[0].Text;
+                    value = table.Rows[4].Cells[0].Tables[0].Rows[1].Cells[1].Paragraphs[0].Text;
                     modelTab.Rows[1].Cells[2].AddParagraph().AppendText(value);
                     modelTab.ApplyHorizontalMerge(1, 2, 3);
 
-                    value = table.Rows[5].Cells[0].Tables[0].Rows[2].Cells[1].Paragraphs[0].Text;
+                    value = table.Rows[4].Cells[0].Tables[0].Rows[2].Cells[1].Paragraphs[0].Text;
                     modelTab.Rows[2].Cells[2].AddParagraph().AppendText(value);
                     modelTab.ApplyHorizontalMerge(2, 2, 3);
 
-                    value = table.Rows[5].Cells[0].Tables[0].Rows[4].Cells[1].Paragraphs[0].Text;
+                    value = table.Rows[4].Cells[0].Tables[0].Rows[4].Cells[1].Paragraphs[0].Text;
                     modelTab.Rows[3].Cells[2].AddParagraph().AppendText(value);
                     modelTab.ApplyHorizontalMerge(3, 2, 3);
 
-                    value = table.Rows[5].Cells[0].Tables[0].Rows[5].Cells[1].Paragraphs[0].Text;
+                    value = table.Rows[4].Cells[0].Tables[0].Rows[5].Cells[1].Paragraphs[0].Text;
                     modelTab.Rows[4].Cells[2].AddParagraph().AppendText(value);
                     modelTab.ApplyHorizontalMerge(4, 2, 3);
 
-                    value = table.Rows[5].Cells[0].Tables[0].Rows[6].Cells[1].Paragraphs[0].Text;
+                    value = table.Rows[4].Cells[0].Tables[0].Rows[6].Cells[1].Paragraphs[0].Text;
                     modelTab.Rows[5].Cells[2].AddParagraph().AppendText(value);
                     modelTab.ApplyHorizontalMerge(5, 2, 3);
 
-                    value = table.Rows[5].Cells[0].Tables[0].Rows[7].Cells[1].Paragraphs[0].Text;
+                    value = table.Rows[4].Cells[0].Tables[0].Rows[7].Cells[1].Paragraphs[0].Text;
                     modelTab.Rows[6].Cells[2].AddParagraph().AppendText(value);
                     modelTab.ApplyHorizontalMerge(6, 2, 3);
 
-                    value = table.Rows[5].Cells[0].Tables[0].Rows[8].Cells[1].Paragraphs[0].Text;
+                    value = table.Rows[4].Cells[0].Tables[0].Rows[8].Cells[1].Paragraphs[0].Text;
                     modelTab.Rows[7].Cells[2].AddParagraph().AppendText(value);
                     modelTab.ApplyHorizontalMerge(7, 2, 3);
 
-                    value = table.Rows[5].Cells[0].Tables[0].Rows[9].Cells[1].Paragraphs[0].Text;
+                    value = table.Rows[4].Cells[0].Tables[0].Rows[9].Cells[1].Paragraphs[0].Text;
                     modelTab.Rows[8].Cells[2].AddParagraph().AppendText(value);
                     modelTab.ApplyHorizontalMerge(8, 2, 3);
 
-                    value = table.Rows[5].Cells[0].Tables[0].Rows[10].Cells[1].Paragraphs[0].Text;
+                    value = table.Rows[4].Cells[0].Tables[0].Rows[10].Cells[1].Paragraphs[0].Text;
                     modelTab.Rows[9].Cells[2].AddParagraph().AppendText(value);
                     modelTab.ApplyHorizontalMerge(9, 2, 3);
 
-                    value = table.Rows[5].Cells[0].Tables[1].Rows[2].Cells[1].Paragraphs[0].Text;
+                    value = table.Rows[4].Cells[1].Tables[0].Rows[2].Cells[1].Paragraphs[0].Text;
                     modelTab.Rows[11].Cells[1].AddParagraph().AppendText(value);
 
-                    value = table.Rows[5].Cells[0].Tables[1].Rows[2].Cells[2].Paragraphs[0].Text;
+                    value = table.Rows[4].Cells[1].Tables[0].Rows[2].Cells[2].Paragraphs[0].Text;
                     modelTab.Rows[11].Cells[2].AddParagraph().AppendText(value);
 
-                    value = table.Rows[5].Cells[0].Tables[1].Rows[2].Cells[3].Paragraphs[0].Text;
+                    value = table.Rows[4].Cells[1].Tables[0].Rows[2].Cells[3].Paragraphs[0].Text;
                     modelTab.Rows[11].Cells[3].AddParagraph().AppendText(value);
 
-                    value = table.Rows[5].Cells[0].Tables[1].Rows[3].Cells[1].Paragraphs[0].Text;
+                    value = table.Rows[4].Cells[1].Tables[0].Rows[3].Cells[1].Paragraphs[0].Text;
                     modelTab.Rows[12].Cells[1].AddParagraph().AppendText(value);
 
-                    value = table.Rows[5].Cells[0].Tables[1].Rows[3].Cells[2].Paragraphs[0].Text;
+                    value = table.Rows[4].Cells[1].Tables[0].Rows[3].Cells[2].Paragraphs[0].Text;
                     modelTab.Rows[12].Cells[2].AddParagraph().AppendText(value);
 
-                    value = table.Rows[5].Cells[0].Tables[1].Rows[3].Cells[3].Paragraphs[0].Text;
+                    value = table.Rows[4].Cells[1].Tables[0].Rows[3].Cells[3].Paragraphs[0].Text;
                     modelTab.Rows[12].Cells[3].AddParagraph().AppendText(value);
 
-                    value = table.Rows[5].Cells[0].Tables[1].Rows[4].Cells[1].Paragraphs[0].Text;
+                    value = table.Rows[4].Cells[1].Tables[0].Rows[4].Cells[1].Paragraphs[0].Text;
                     modelTab.Rows[13].Cells[1].AddParagraph().AppendText(value);
 
-                    value = table.Rows[5].Cells[0].Tables[1].Rows[4].Cells[2].Paragraphs[0].Text;
+                    value = table.Rows[4].Cells[1].Tables[0].Rows[4].Cells[2].Paragraphs[0].Text;
                     modelTab.Rows[13].Cells[2].AddParagraph().AppendText(value);
 
-                    value = table.Rows[5].Cells[0].Tables[1].Rows[4].Cells[3].Paragraphs[0].Text;
+                    value = table.Rows[4].Cells[1].Tables[0].Rows[4].Cells[3].Paragraphs[0].Text;
                     modelTab.Rows[13].Cells[3].AddParagraph().AppendText(value);
 
-                    value = "8";
+                    value = MTTR;
                     modelTab.Rows[15].Cells[1].AddParagraph().AppendText(value);
                     modelTab.Rows[16].Cells[1].AddParagraph().AppendText(value);
                     modelTab.Rows[17].Cells[1].AddParagraph().AppendText(value);
 
-                    value = "36";
+                    value = PTI;
                     modelTab.Rows[15].Cells[2].AddParagraph().AppendText(value);
                     modelTab.Rows[16].Cells[2].AddParagraph().AppendText(value);
                     modelTab.Rows[17].Cells[2].AddParagraph().AppendText(value);
-                    
+
                     modelTab.Rows[15].Cells[3].AddParagraph().AppendText("90");
                     modelTab.Rows[16].Cells[3].AddParagraph().AppendText("95");
                     modelTab.Rows[17].Cells[3].AddParagraph().AppendText("85");
 
                     modelTab.ApplyStyle(DefaultTableStyle.TableGrid);
 
-                    for(int i = 10;i < 18;i++)
+                    for (int i = 10; i < 18; i++)
                     {
-                        foreach(TableCell cell in modelTab.Rows[i].Cells)
+                        foreach (TableCell cell in modelTab.Rows[i].Cells)
                         {
-                            if(cell.Paragraphs.Count > 0)
+                            if (cell.Paragraphs.Count > 0)
                             {
                                 cell.Paragraphs[0].Format.HorizontalAlignment = HorizontalAlignment.Center;
                             }
                         }
-                        
+
                     }
 
                     for (int i = 1; i < 10; i++)
@@ -218,11 +229,11 @@ namespace GetExcelFormReoprt
                     }
 
 
-                    foreach (TableRow row  in modelTab.Rows)
+                    foreach (TableRow row in modelTab.Rows)
                     {
-                        foreach(TableCell cell in row.Cells)
+                        foreach (TableCell cell in row.Cells)
                         {
-                            if(cell.Paragraphs.Count > 0)
+                            if (cell.Paragraphs.Count > 0)
                             {
                                 cell.Paragraphs[0].ApplyStyle(cellstyle.Name);
                             }
@@ -230,7 +241,7 @@ namespace GetExcelFormReoprt
                         }
                     }
 
-                    
+
                 }
             }
 
@@ -245,13 +256,9 @@ namespace GetExcelFormReoprt
                 }
             }
 
-
-            report.Close();
-            saveDocFile.SaveToFile(filename.Replace(".docx", "_result.docx").Replace(".doc", "_result.docx").Replace("_result.docxx", ".docx"));
-            saveDocFile.Close();
-
+            Console.WriteLine("所有信息提取成功，正在保存文件...\n");
+            return saveDocFile;
         }
-
 
     }
 }

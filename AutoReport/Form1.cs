@@ -21,8 +21,6 @@ namespace AutoReport
         }
 
         Report_Type type = Report_Type.Risk_SILlevel;
-        //string filepath = 
-
 
         private void 风险分析与SILToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -208,17 +206,23 @@ namespace AutoReport
             object filename = null;
             if (ofd.ShowDialog() == DialogResult.OK)
             {
+                textBox6.Text = string.Empty;
                 filename = ofd.FileName;
-                string protection = Protection(filename.ToString());
-                textBox6.Text = protection;
+                List<string> protection = Protection(filename.ToString());
+                foreach(string p in protection)
+                {
+                    textBox6.Text += p + "\r\n";
+                }
+                
             }
         }
 
-        public string Protection(string filepath)
+        public List<string> Protection(string filepath)
         {
             Workbook excel = new Workbook();
             excel.LoadFromFile(filepath);
             string protection = string.Empty;
+            List<string> p = new List<string>();
             foreach(Worksheet sheet in excel.Worksheets)
             {
                 Regex regex = new Regex(@"SIF List");
@@ -227,11 +231,12 @@ namespace AutoReport
                 else if (regex.Match(sheet.Name).Success) continue;
                 else
                 {
-                    if(sheet.Range["B46"].FormulaValue != null)
-                        protection += sheet.Range["B46"].FormulaValue.ToString() + "\n";
+                    if (sheet.Range["B46"].FormulaValue != null)
+                        if(!p.Contains(sheet.Range["B46"].FormulaValue.ToString()))
+                            p.Add(sheet.Range["B46"].FormulaValue.ToString());
                 }
             }
-            return protection;
+            return p;
         }
     }
 }

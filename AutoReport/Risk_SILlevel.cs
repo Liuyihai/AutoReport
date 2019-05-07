@@ -78,7 +78,7 @@ namespace AutoReport
             FileStream fs = File.OpenRead(form.textBox7.Text); //OpenRead
             int filelength = 0;
             filelength = (int)fs.Length; //获得文件长度 
-            Byte[] image = new Byte[filelength]; //建立一个字节数组 
+            byte[] image = new byte[filelength]; //建立一个字节数组 
             fs.Read(image, 0, filelength);
             paragraph = saveDocFile.LastParagraph;
             paragraph.AppendPicture(image);
